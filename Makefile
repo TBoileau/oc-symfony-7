@@ -26,10 +26,17 @@ composer: ## Installation des dépendances de composer.json
 	composer install
 .PHONY: composer
 
+key-pair: ## Générer une clé privée et publique pour JWT
+	$(DISABLE_XDEBUG) php bin/console lexik:jwt:generate-keypair -n --overwrite
+.PHONY: key-pair
+
 install: ## Installation du projet
-	make composer
 	make prepare env=dev db-user=$(db-user) db-password=$(db-password) db-name=$(db-name) db-host=$(db-host) db-port=$(db-port) db-version=$(db-version) db-charset=$(db-charset)
 	make prepare env=test db-user=$(db-user) db-password=$(db-password) db-name=$(db-name) db-host=$(db-host) db-port=$(db-port) db-version=$(db-version) db-charset=$(db-charset)
+	make composer
+	make key-pair
+	make db env=dev
+	make db env=test
 .PHONY: install
 
 prepare: ## Préparation du projet
@@ -43,7 +50,6 @@ prepare: ## Préparation du projet
 	sed -i -e 's/db-version/$(db-version)/' .env.$(env).local
 	sed -i -e 's/db-charset/$(db-charset)/' .env.$(env).local
 	sed -i -e 's/env/$(env)/' .env.$(env).local
-	make db env=$(env)
 .PHONY: prepare
 
 db-fixtures: ## Chargement des fixtures
