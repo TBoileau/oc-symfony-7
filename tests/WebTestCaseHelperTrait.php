@@ -42,6 +42,24 @@ trait WebTestCaseHelperTrait
     }
 
     /**
+     * @param array<string, mixed> $body
+     */
+    public function put(string $uri, array $body = []): void
+    {
+        /** @var string $json */
+        $json = json_encode($body);
+
+        self::getClient()->request(
+            Request::METHOD_PUT,
+            $uri,
+            [],
+            [],
+            ['CONTENT_TYPE' => 'application/json'],
+            $json
+        );
+    }
+
+    /**
      * @param array<string, mixed> $parameters
      */
     public function get(string $uri, array $parameters = []): void

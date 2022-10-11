@@ -22,8 +22,6 @@ final class PostCollectionTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(Response::HTTP_CREATED);
 
-        self::assertResponseHeaderSame('location', 'http://localhost/api/users/126');
-
         /** @var string $content */
         $content = $client->getResponse()->getContent();
 
@@ -33,7 +31,10 @@ final class PostCollectionTest extends WebTestCase
         $data = json_decode($content, true);
 
         self::assertArrayHasKey('id', $data);
-        self::assertSame(126, $data['id']);
+
+        self::assertIsInt($data['id']);
+
+        self::assertResponseHeaderSame('location', sprintf('http://localhost/api/users/%d', $data['id']));
 
         self::assertArrayHasKey('firstName', $data);
         self::assertSame('firstName', $data['firstName']);
@@ -44,7 +45,7 @@ final class PostCollectionTest extends WebTestCase
         self::assertArrayHasKey('_links', $data);
         self::assertSame([
             'self' => [
-                'href' => 'http://localhost/api/users/126',
+                'href' => sprintf('http://localhost/api/users/%d', $data['id']),
             ],
         ], $data['_links']);
     }

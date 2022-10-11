@@ -102,4 +102,22 @@ final class UserController extends AbstractController
             ['groups' => ['user:read']]
         );
     }
+
+    #[Route('/{id}', name: 'put_item', methods: [Request::METHOD_PUT])]
+    #[IsGranted('', subject: 'user')]
+    public function putItem(
+        User $user,
+        EntityManagerInterface $entityManager,
+        ValidatorInterface $validator
+    ): JsonResponse {
+        $violations = $validator->validate($user);
+
+        if ($violations->count() > 0) {
+            throw new ValidationFailedException($user, $violations);
+        }
+
+        $entityManager->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
 }
