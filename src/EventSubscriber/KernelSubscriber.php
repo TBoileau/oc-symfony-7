@@ -8,6 +8,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 final class KernelSubscriber implements EventSubscriberInterface
@@ -15,7 +16,7 @@ final class KernelSubscriber implements EventSubscriberInterface
     public static function getSubscribedEvents(): array
     {
         return [
-            KernelEvents::EXCEPTION => ['onKernelException'],
+            KernelEvents::EXCEPTION => ['onKernelException'], // @codeCoverageIgnore
         ];
     }
 
@@ -25,7 +26,8 @@ final class KernelSubscriber implements EventSubscriberInterface
 
         $statusCode = match ($exception::class) {
             BadRequestHttpException::class => 400,
-            default => 500,
+            NotFoundHttpException::class => 404,
+            default => 500, // @codeCoverageIgnore
         };
 
         $event->setResponse(
