@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
 
 final class KernelSubscriber implements EventSubscriberInterface
 {
@@ -32,6 +33,28 @@ final class KernelSubscriber implements EventSubscriberInterface
             NotFoundHttpException::class => 404,
             default => 500, // @codeCoverageIgnore
         };
+
+        if ($exception instanceof ValidationFailedException) {
+            $violations = [];
+            foreach ($exception->getViolations() as $violation) {
+                $violations[] = [
+                    'property' => $violation->getPropertyPath(),
+                    'message' => $violation->getMessage(),
+                ];
+            }
+            $event->setResponse(
+                new JsonResponse(
+                    [
+                        'code' => 422,
+                        'message' => $exception->getMessage(),
+                        'violations' => $violations,
+                    ],
+                    422
+                )
+            );
+
+            return;
+        }
 
         if (
             $exception instanceof AccessDeniedHttpException

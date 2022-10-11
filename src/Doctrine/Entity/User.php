@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 #[Entity(repositoryClass: UserRepository::class)]
 class User
@@ -23,11 +24,13 @@ class User
     private ?int $id = null;
 
     #[Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
+    #[NotBlank]
     private string $lastName;
 
     #[Column]
-    #[Groups(['user:read'])]
+    #[Groups(['user:read', 'user:write'])]
+    #[NotBlank]
     private string $firstName;
 
     #[ManyToOne]
