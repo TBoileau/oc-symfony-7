@@ -40,4 +40,31 @@ trait WebTestCaseHelperTrait
             $json
         );
     }
+
+    /**
+     * @param array<string, mixed> $parameters
+     */
+    public function get(string $uri, array $parameters = []): void
+    {
+        self::getClient()->request(
+            Request::METHOD_GET,
+            sprintf('%s?%s', $uri, http_build_query($parameters))
+        );
+    }
+
+    public function login(string $apiKey = 'api-key-1'): void
+    {
+        $this->post('/api/login_check', [
+            'apiKey' => $apiKey,
+            'apiSecret' => 'secret',
+        ]);
+
+        /** @var string $content */
+        $content = static::getClient()->getResponse()->getContent();
+
+        /** @var array{token: string} $data */
+        $data = json_decode($content, true);
+
+        self::getClient()->setServerParameter('HTTP_Authorization', sprintf('Bearer %s', $data['token']));
+    }
 }
