@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\JoinColumn;
 use Doctrine\ORM\Mapping\ManyToOne;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[Entity(repositoryClass: UserRepository::class)]
 class User
@@ -18,12 +19,15 @@ class User
     #[Id]
     #[GeneratedValue]
     #[Column]
+    #[Groups(['user:read'])]
     private ?int $id = null;
 
     #[Column]
+    #[Groups(['user:read'])]
     private string $lastName;
 
     #[Column]
+    #[Groups(['user:read'])]
     private string $firstName;
 
     #[ManyToOne]

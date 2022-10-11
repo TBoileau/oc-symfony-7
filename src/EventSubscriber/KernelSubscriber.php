@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\EventSubscriber;
 
+use App\Doctrine\Entity\User;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final class KernelSubscriber implements EventSubscriberInterface
 {
@@ -29,6 +32,27 @@ final class KernelSubscriber implements EventSubscriberInterface
             NotFoundHttpException::class => 404,
             default => 500, // @codeCoverageIgnore
         };
+
+        if (
+            $exception instanceof AccessDeniedHttpException
+            && $exception->getPrevious() instanceof AccessDeniedException
+            && $exception->getPrevious()->getSubject() instanceof User
+        ) {
+            $event->setResponse(
+                new JsonResponse(
+                    [
+                        'code' => 404,
+                        'message' => sprintf(
+                            'User with id "%s" not found.',
+                            $exception->getPrevious()->getSubject()->getId()
+                        ),
+                    ],
+                    404
+                )
+            );
+
+            return;
+        }
 
         $event->setResponse(
             new JsonResponse(
