@@ -41,6 +41,8 @@ jobs:
         run: make composer
       - name: Prepare
         run: make prepare env=test db-password=Password123!
+      - name: Key pair
+        run: make key-pair
       - name: Quality assurance
         run: make qa
       - name: Tests
