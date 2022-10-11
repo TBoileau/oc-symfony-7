@@ -47,6 +47,12 @@ final class PostCollectionTest extends WebTestCase
             'self' => [
                 'href' => sprintf('http://localhost/api/users/%d', $data['id']),
             ],
+            'delete' => [
+                'href' => sprintf('http://localhost/api/users/%d', $data['id']),
+            ],
+            'update' => [
+                'href' => sprintf('http://localhost/api/users/%d', $data['id']),
+            ],
         ], $data['_links']);
     }
 

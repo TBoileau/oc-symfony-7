@@ -108,7 +108,7 @@ qa-phpmd: ## Analyse du code avec PHPMD
 .PHONY: qa-phpmd
 
 qa-phpcpd: ## Analyse du code avec PHPCPD
-	$(DISABLE_XDEBUG) php vendor/bin/phpcpd src
+	$(DISABLE_XDEBUG) php vendor/bin/phpcpd src --exclude=src/Controller
 .PHONY: qa-phpcpd
 
 qa: ## Analyse du code
