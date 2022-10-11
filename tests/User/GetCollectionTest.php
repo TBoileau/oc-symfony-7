@@ -106,6 +106,9 @@ final class GetCollectionTest extends WebTestCase
                 'self' => [
                     'href' => 'http://localhost/api/users?page=1&limit=10',
                 ],
+                'post' => [
+                    'href' => 'http://localhost/api/users',
+                ],
                 'next' => [
                     'href' => 'http://localhost/api/users?page=2&limit=10',
                 ],
@@ -124,6 +127,9 @@ final class GetCollectionTest extends WebTestCase
             '_links' => [
                 'self' => [
                     'href' => 'http://localhost/api/users?page=2&limit=10',
+                ],
+                'post' => [
+                    'href' => 'http://localhost/api/users',
                 ],
                 'next' => [
                     'href' => 'http://localhost/api/users?page=3&limit=10',
@@ -149,6 +155,9 @@ final class GetCollectionTest extends WebTestCase
             '_links' => [
                 'self' => [
                     'href' => 'http://localhost/api/users?page=3&limit=10',
+                ],
+                'post' => [
+                    'href' => 'http://localhost/api/users',
                 ],
                 'previous' => [
                     'href' => 'http://localhost/api/users?page=2&limit=10',

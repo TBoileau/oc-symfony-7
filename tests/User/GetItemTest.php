@@ -40,6 +40,12 @@ final class GetItemTest extends WebTestCase
             'self' => [
                 'href' => 'http://localhost/api/users/1',
             ],
+            'delete' => [
+                'href' => 'http://localhost/api/users/1',
+            ],
+            'update' => [
+                'href' => 'http://localhost/api/users/1',
+            ],
         ], $data['_links']);
     }
 

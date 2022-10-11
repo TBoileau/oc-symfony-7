@@ -29,6 +29,20 @@ final class UserNormalizer extends ItemNormalizer
                     UrlGeneratorInterface::ABSOLUTE_URL
                 ),
             ],
+            'delete' => [
+                'href' => $this->urlGenerator->generate(
+                    'user_delete_item',
+                    ['id' => $object->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+            ],
+            'update' => [
+                'href' => $this->urlGenerator->generate(
+                    'user_put_item',
+                    ['id' => $object->getId()],
+                    UrlGeneratorInterface::ABSOLUTE_URL
+                ),
+            ],
         ];
     }
 
