@@ -31,9 +31,9 @@ key-pair: ## Générer une clé privée et publique pour JWT
 .PHONY: key-pair
 
 install: ## Installation du projet
-	make composer
 	make prepare env=dev db-user=$(db-user) db-password=$(db-password) db-name=$(db-name) db-host=$(db-host) db-port=$(db-port) db-version=$(db-version) db-charset=$(db-charset)
 	make prepare env=test db-user=$(db-user) db-password=$(db-password) db-name=$(db-name) db-host=$(db-host) db-port=$(db-port) db-version=$(db-version) db-charset=$(db-charset)
+	make composer
 	make key-pair
 	make db env=dev
 	make db env=test
