@@ -16,7 +16,7 @@ class Client implements PasswordAuthenticatedUserInterface, UserInterface
 {
     #[Id]
     #[GeneratedValue]
-    #[Column(nullable: true)]
+    #[Column]
     private ?int $id = null;
 
     #[Column]
