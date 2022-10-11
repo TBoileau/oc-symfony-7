@@ -70,6 +70,11 @@ trait WebTestCaseHelperTrait
         );
     }
 
+    public function delete(string $uri): void
+    {
+        self::getClient()->request(Request::METHOD_DELETE, $uri);
+    }
+
     public function login(string $apiKey = 'api-key-1'): void
     {
         $this->post('/api/login_check', [

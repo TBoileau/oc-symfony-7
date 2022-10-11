@@ -120,4 +120,14 @@ final class UserController extends AbstractController
 
         return $this->json(null, Response::HTTP_NO_CONTENT);
     }
+
+    #[Route('/{id}', name: 'delete_item', methods: [Request::METHOD_DELETE])]
+    #[IsGranted('', subject: 'user')]
+    public function deleteItem(User $user, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $entityManager->remove($user);
+        $entityManager->flush();
+
+        return $this->json(null, Response::HTTP_NO_CONTENT);
+    }
 }
