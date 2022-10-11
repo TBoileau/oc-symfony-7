@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Representation;
+namespace App\Hal;
 
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-final class RepresentationFactory implements RepresentationFactoryInterface
+final class CollectionFactory implements CollectionFactoryInterface
 {
     public function __construct(private readonly UrlGeneratorInterface $urlGenerator)
     {
@@ -20,10 +20,10 @@ final class RepresentationFactory implements RepresentationFactoryInterface
         int $total,
         string $route,
         array $parameters = []
-    ): Representation {
+    ): Collection {
         $pages = (int) ceil($total / $limit);
 
-        $representation = (new Representation($page, $pages, $limit, $total))
+        $representation = (new Collection($page, $pages, $limit, $total))
             ->addLinks(
                 'self',
                 $this->urlGenerator->generate(

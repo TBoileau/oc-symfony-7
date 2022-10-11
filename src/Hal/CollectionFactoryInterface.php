@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Representation;
+namespace App\Hal;
 
-interface RepresentationFactoryInterface
+interface CollectionFactoryInterface
 {
     /**
      * @template T
@@ -12,7 +12,7 @@ interface RepresentationFactoryInterface
      * @param array<array-key, T>  $items
      * @param array<string, mixed> $parameters
      *
-     * @return Representation<T>
+     * @return Collection<T>
      */
     public function create(
         string $name,
@@ -22,5 +22,5 @@ interface RepresentationFactoryInterface
         int $total,
         string $route,
         array $parameters = [],
-    ): Representation;
+    ): Collection;
 }

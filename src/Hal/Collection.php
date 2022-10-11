@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Representation;
+namespace App\Hal;
 
 use function count;
 
@@ -11,7 +11,7 @@ use function count;
  *
  * @SuppressWarnings(PHPMD.CamelCasePropertyName)
  */
-final class Representation
+final class Collection
 {
     public int $count;
 
